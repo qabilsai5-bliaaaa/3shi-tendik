@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Үшбұрыштар теңдігінің 3-ші белгісі (ҚҚҚ) — izischool 7-сынып</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .grid-bg {
+            background-size: 30px 30px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen grid-bg font-sans selection:bg-emerald-500 selection:text-slate-900 pb-12">
+
+    <!-- TOP HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-700/60 bg-slate-900/85">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- izischool Stylized Logo -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-400 via-teal-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/30 border border-white/20">
+                        <span class="font-display font-black text-xl text-slate-950 tracking-tighter">izi</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-display font-black text-xl tracking-tight text-white">izi<span class="text-emerald-400">school</span></span>
+                            <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">7-сынып</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 -mt-1 hidden sm:block font-medium">Геометрия • Интерактивті платформа</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex items-center space-x-1 sm:space-x-2">
+                <button onclick="scrollToSection('theory')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-book-open mr-1.5 text-emerald-400"></i> Теория
+                </button>
+                <button onclick="scrollToSection('visualizer')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-shapes mr-1.5 text-teal-400"></i> Лаборатория
+                </button>
+                <button onclick="scrollToSection('quiz')" class="px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 shadow-md shadow-emerald-500/20 hover:opacity-95 transition">
+                    <i class="fa-solid fa-gamepad mr-1.5"></i> Тапсырмалар
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+        <div class="glass-panel rounded-3xl p-6 sm:p-10 relative overflow-hidden border border-slate-700/80 shadow-2xl">
+            <div class="absolute -right-12 -bottom-12 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 -top-12 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-emerald-300 text-xs font-semibold">
+                        <span class="font-bold text-emerald-400">izischool</span> <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i> Негізгі теорема
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                        Үшбұрыштар теңдігінің <br class="hidden sm:inline"/>
+                        <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">3-ші белгісі (ҚҚҚ)</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Егер бір үшбұрыштың <strong class="text-emerald-400 font-semibold">үш қабырғасы</strong> екінші үшбұрыштың <strong class="text-teal-300 font-semibold">тиісінше үш қабырғасына</strong> тең болса, онда мұндай үшбұрыштар <span class="text-cyan-400 font-bold">тең болады</span>.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <div class="flex items-center gap-2 bg-slate-900/60 border border-blue-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm">
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <span class="text-slate-200">AB = A'B' (Қ1)</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-slate-900/60 border border-emerald-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-slate-200">BC = B'C' (Қ2)</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-slate-900/60 border border-amber-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm">
+                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                            <span class="text-slate-200">AC = A'C' (Қ3)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Graphic Banner -->
+                <div class="lg:col-span-5 bg-slate-900/90 rounded-2xl p-4 border border-slate-700/60 shadow-inner flex flex-col items-center justify-center">
+                    <div class="text-xs text-slate-400 mb-2 font-mono flex items-center justify-between w-full px-2">
+                        <span><i class="fa-solid fa-shapes text-emerald-400 mr-1"></i> ΔABC ≅ ΔA'B'C'</span>
+                        <span class="text-emerald-400">ҚҚҚ (Қабырға-Қабырға-Қабырға)</span>
+                    </div>
+                    <svg viewBox="0 0 360 180" class="w-full h-auto max-h-48 drop-shadow-md">
+                        <!-- Triangle 1 (ABC) -->
+                        <g transform="translate(10, 10)">
+                            <polygon points="20,140 140,140 75,30" fill="rgba(16, 185, 129, 0.12)" stroke="#334155" stroke-width="2"/>
+                            <!-- Side AB (Blue) -->
+                            <line x1="20" y1="140" x2="140" y2="140" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Side BC (Emerald) -->
+                            <line x1="140" y1="140" x2="75" y2="30" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Side AC (Amber) -->
+                            <line x1="20" y1="140" x2="75" y2="30" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Ticks -->
+                            <line x1="80" y1="136" x2="80" y2="144" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="102" y1="80" x2="110" y2="88" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="106" y1="83" x2="114" y2="91" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="42" y1="82" x2="50" y2="86" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="44" y1="87" x2="52" y2="91" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="46" y1="92" x2="54" y2="96" stroke="#ffffff" stroke-width="2"/>
+                            <!-- Labels -->
+                            <text x="10" y="155" fill="#94a3b8" font-size="12" font-weight="bold">A</text>
+                            <text x="145" y="155" fill="#94a3b8" font-size="12" font-weight="bold">B</text>
+                            <text x="72" y="22" fill="#94a3b8" font-size="12" font-weight="bold">C</text>
+                        </g>
+
+                        <!-- Congruent symbol -->
+                        <text x="172" y="95" fill="#34d399" font-size="24" font-weight="bold" text-anchor="middle">≅</text>
+
+                        <!-- Triangle 2 (A'B'C') -->
+                        <g transform="translate(190, 10)">
+                            <polygon points="20,140 140,140 75,30" fill="rgba(34, 211, 238, 0.12)" stroke="#334155" stroke-width="2"/>
+                            <!-- Side A'B' (Blue) -->
+                            <line x1="20" y1="140" x2="140" y2="140" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Side B'C' (Emerald) -->
+                            <line x1="140" y1="140" x2="75" y2="30" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Side A'C' (Amber) -->
+                            <line x1="20" y1="140" x2="75" y2="30" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Ticks -->
+                            <line x1="80" y1="136" x2="80" y2="144" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="102" y1="80" x2="110" y2="88" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="106" y1="83" x2="114" y2="91" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="42" y1="82" x2="50" y2="86" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="44" y1="87" x2="52" y2="91" stroke="#ffffff" stroke-width="2"/>
+                            <line x1="46" y1="92" x2="54" y2="96" stroke="#ffffff" stroke-width="2"/>
+                            <!-- Labels -->
+                            <text x="8" y="155" fill="#94a3b8" font-size="12" font-weight="bold">A'</text>
+                            <text x="145" y="155" fill="#94a3b8" font-size="12" font-weight="bold">B'</text>
+                            <text x="72" y="22" fill="#94a3b8" font-size="12" font-weight="bold">C'</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: INTERACTIVE VISUALIZER LAB -->
+    <section id="visualizer" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="font-display text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-emerald-400"></i> ҚҚҚ Интерактивті Лабораториясы
+                    </h3>
+                    <p class="text-slate-400 text-xs sm:text-sm">Үш қабырғаның ұзындығын (a, b, c) өзгертіп, үшбұрыштың теңдігін және үшбұрыш теңсіздігін тексеріңіз.</p>
+                </div>
+                
+                <!-- Toggle Mode Button -->
+                <div class="flex items-center gap-3 bg-slate-900 p-1.5 rounded-xl border border-slate-700">
+                    <button id="btnCongruentMode" onclick="setVisualizerMode(true)" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-emerald-500 text-slate-950 shadow-md">
+                        <i class="fa-solid fa-check-circle mr-1"></i> Тең үшбұрыштар
+                    </button>
+                    <button id="btnNonCongruentMode" onclick="setVisualizerMode(false)" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+                        <i class="fa-solid fa-xmark-circle mr-1"></i> Тең емес жағдай
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- SVG Canvas Container -->
+                <div class="lg:col-span-8 bg-slate-950/80 rounded-2xl p-4 border border-slate-800 flex flex-col justify-between relative min-h-[340px]">
+                    <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                        <span id="tri1Info" class="text-blue-400 font-semibold">ΔABC: c=120, b=100, a=90</span>
+                        <span id="congruenceStatusBadge" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center gap-1.5">
+                            <i class="fa-solid fa-equals"></i> ΔABC ≅ ΔA'B'C' (Тең)
+                        </span>
+                        <span id="tri2Info" class="text-emerald-400 font-semibold">ΔA'B'C': c'=120, b'=100, a'=90</span>
+                    </div>
+
+                    <!-- Triangle Inequality Warning Overlay -->
+                    <div id="inequalityAlert" class="hidden absolute inset-0 z-20 bg-slate-950/90 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center p-6 text-center">
+                        <div class="w-14 h-14 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 text-2xl mb-3 animate-bounce">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h4 class="font-display text-lg font-bold text-red-400 mb-1">Үшбұрыш құрастыру мүмкін емес!</h4>
+                        <p id="inequalityReason" class="text-slate-300 text-xs max-w-md">Үшбұрыш теңсіздігі бұзылды: кез келген екі қабырғаның қосындысы үшінші қабырғадан үлкен болуы тиіс (a + b > c).</p>
+                    </div>
+
+                    <div class="w-full flex-grow flex items-center justify-center relative overflow-hidden py-4">
+                        <svg id="visualizerSvg" viewBox="0 0 700 300" class="w-full h-full max-h-[300px]">
+                            <defs>
+                                <pattern id="canvasGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#canvasGrid)" />
+
+                            <!-- Dynamic SVG Triangle 1 (ABC) -->
+                            <g id="svgTri1" transform="translate(60, 30)">
+                                <polygon id="poly1" points="0,220 120,220 60,80" fill="rgba(16, 185, 129, 0.12)" stroke="#10b981" stroke-width="2"/>
+                                <!-- Side c (AB) Blue -->
+                                <line id="sideAB1" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Side b (AC) Amber -->
+                                <line id="sideAC1" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Side a (BC) Emerald -->
+                                <line id="sideBC1" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Vertex Labels -->
+                                <text id="lblA1" fill="#cbd5e1" font-size="14" font-weight="bold">A</text>
+                                <text id="lblB1" fill="#cbd5e1" font-size="14" font-weight="bold">B</text>
+                                <text id="lblC1" fill="#cbd5e1" font-size="14" font-weight="bold">C</text>
+                                <!-- Values -->
+                                <text id="valAB1" fill="#60a5fa" font-size="11" font-weight="bold" text-anchor="middle"></text>
+                                <text id="valAC1" fill="#fbbf24" font-size="11" font-weight="bold" text-anchor="end"></text>
+                                <text id="valBC1" fill="#34d399" font-size="11" font-weight="bold"></text>
+                            </g>
+
+                            <!-- Dynamic SVG Triangle 2 (A'B'C') -->
+                            <g id="svgTri2" transform="translate(400, 30)">
+                                <polygon id="poly2" points="0,220 120,220 60,80" fill="rgba(34, 211, 238, 0.12)" stroke="#22d3ee" stroke-width="2"/>
+                                <!-- Side c' (A'B') Blue -->
+                                <line id="sideAB2" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Side b' (A'C') Amber -->
+                                <line id="sideAC2" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Side a' (B'C') Emerald -->
+                                <line id="sideBC2" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                                <!-- Vertex Labels -->
+                                <text id="lblA2" fill="#cbd5e1" font-size="14" font-weight="bold">A'</text>
+                                <text id="lblB2" fill="#cbd5e1" font-size="14" font-weight="bold">B'</text>
+                                <text id="lblC2" fill="#cbd5e1" font-size="14" font-weight="bold">C'</text>
+                                <!-- Values -->
+                                <text id="valAB2" fill="#60a5fa" font-size="11" font-weight="bold" text-anchor="middle"></text>
+                                <text id="valAC2" fill="#fbbf24" font-size="11" font-weight="bold" text-anchor="end"></text>
+                                <text id="valBC2" fill="#34d399" font-size="11" font-weight="bold"></text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-xs text-slate-300 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                            <span id="labHintText">Үш қабырғасы сәйкесінше тең, сондықтан ҚҚҚ белгісі бойынша ΔABC = ΔA'B'C'.</span>
+                        </div>
+                        <button onclick="superimposeTriangles()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-medium transition">
+                            <i class="fa-solid fa-layer-group mr-1"></i> Беттестіріп көру
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sliders and Control Panel -->
+                <div class="lg:col-span-4 bg-slate-900/60 rounded-2xl p-5 border border-slate-700/60 flex flex-col justify-between space-y-4">
+                    <h4 class="font-display font-semibold text-slate-200 border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <span>Басқару элементтері</span>
+                        <span class="text-xs font-normal text-slate-400">ΔABC & ΔA'B'C'</span>
+                    </h4>
+
+                    <!-- Slider 1: Side c (AB) -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs">
+                            <label class="text-slate-300 flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                                AB қабырғасы (c):
+                            </label>
+                            <span id="valSideC" class="font-mono text-blue-400 font-bold">120 px</span>
+                        </div>
+                        <input type="range" id="inputSideC" min="70" max="170" value="120" oninput="updateVisualizer()" 
+                               class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                    </div>
+
+                    <!-- Slider 2: Side b (AC) -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs">
+                            <label class="text-slate-300 flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                AC қабырғасы (b):
+                            </label>
+                            <span id="valSideB" class="font-mono text-amber-400 font-bold">100 px</span>
+                        </div>
+                        <input type="range" id="inputSideB" min="50" max="150" value="100" oninput="updateVisualizer()" 
+                               class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                    </div>
+
+                    <!-- Slider 3: Side a (BC) -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs">
+                            <label class="text-slate-300 flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                BC қабырғасы (a):
+                            </label>
+                            <span id="valSideA" class="font-mono text-emerald-400 font-bold">90 px</span>
+                        </div>
+                        <input type="range" id="inputSideA" min="50" max="150" value="90" oninput="updateVisualizer()" 
+                               class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                    </div>
+
+                    <!-- Non-Congruence specific slider (Hidden by default) -->
+                    <div id="nonCongruentControl" class="p-3 bg-red-950/30 border border-red-500/30 rounded-xl space-y-2 hidden">
+                        <div class="flex justify-between text-xs text-red-300">
+                            <label class="font-semibold">ΔA'B'C' B'C' қабырғасын өзгерту:</label>
+                            <span id="valSideA2" class="font-mono font-bold">130 px</span>
+                        </div>
+                        <input type="range" id="inputSideA2" min="50" max="150" value="130" oninput="updateVisualizer()" 
+                               class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-red-500">
+                        <p class="text-[11px] text-red-400 leading-tight">3-ші белгі шарты бұзылды: BC ≠ B'C'</p>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="p-3 bg-slate-950 rounded-xl text-xs space-y-1 font-mono text-slate-400 border border-slate-800">
+                            <div class="text-emerald-400 font-bold mb-1">Сәйкестік кестесі:</div>
+                            <div class="flex justify-between"><span>• AB = A'B' (Қабырға)</span> <span id="eq1" class="text-emerald-400">✓ Тең</span></div>
+                            <div class="flex justify-between"><span>• AC = A'C' (Қабырға)</span> <span id="eq2" class="text-emerald-400">✓ Тең</span></div>
+                            <div class="flex justify-between"><span>• BC = B'C' (Қабырға)</span> <span id="eq3" class="text-emerald-400">✓ Тең</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE PROOF EXPLORATION LAB -->
+    <section id="theory" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Card 1: Theory Explanation -->
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-lg flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mb-4">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-3">ҚҚҚ Теоремасының мәні</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Неліктен үш қабырғаның теңдігі үшбұрыштың бұрыштарын автоматты түрде теңестіреді?
+                    </p>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                            <span>Үш қабырғасы белгілі үшбұрыштың пішіні <strong>қатаң фиксацияланады (деформацияланбайды)</strong>. Бұл қасиет геометрияда «үшбұрыштың беріктігі» деп аталады.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-shield-halved text-cyan-400 mt-1"></i>
+                            <span>Сол себепті көпірлерде, крандарда және үй шатырларында конструкция берік болуы үшін үшбұрышты фермалар қолданылады.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 bg-slate-900/80 rounded-2xl border border-slate-800">
+                    <div class="text-xs font-mono text-emerald-400 font-bold mb-1">Символдық жазылуы:</div>
+                    <p class="text-xs font-mono text-slate-300">
+                        ΔABC мен ΔA'B'C' үшін:<br/>
+                        1) AB = A'B'<br/>
+                        2) AC = A'C'<br/>
+                        3) BC = B'C'<br/>
+                        <span class="text-emerald-400 font-bold">⇒ ΔABC = ΔA'B'C' (ҚҚҚ белгісі бойынша)</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Interactive Element Matching Challenge -->
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-lg flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 text-xl">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                        </div>
+                        <span class="text-xs font-semibold px-3 py-1 bg-slate-800 rounded-full text-slate-300 border border-slate-700">Тәжірибелік тапсырма</span>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold text-white mb-2">Тең элементтерді таңдаңыз</h3>
+                    <p class="text-slate-300 text-sm mb-4">ҚҚҚ белгісі (Қабырға-Қабырға-Қабырға) орындалуы үшін қай 3 элемент қажет? Белгілеңіз:</p>
+
+                    <div id="matchingTaskContainer" class="grid grid-cols-2 gap-2.5">
+                        <button onclick="toggleMatchItem(this, 'sideAB')" class="match-btn p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-xl text-xs font-medium text-left flex items-center justify-between transition">
+                            <span>1. AB = A'B' (1-ші қабырға)</span>
+                            <i class="fa-regular fa-circle text-slate-500 check-icon"></i>
+                        </button>
+                        <button onclick="toggleMatchItem(this, 'angA')" class="match-btn p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-xl text-xs font-medium text-left flex items-center justify-between transition">
+                            <span>2. ∠A = ∠A' (Ішкі бұрыш)</span>
+                            <i class="fa-regular fa-circle text-slate-500 check-icon"></i>
+                        </button>
+                        <button onclick="toggleMatchItem(this, 'sideAC')" class="match-btn p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-xl text-xs font-medium text-left flex items-center justify-between transition">
+                            <span>3. AC = A'C' (2-ші қабырға)</span>
+                            <i class="fa-regular fa-circle text-slate-500 check-icon"></i>
+                        </button>
+                        <button onclick="toggleMatchItem(this, 'sideBC')" class="match-btn p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-xl text-xs font-medium text-left flex items-center justify-between transition">
+                            <span>4. BC = B'C' (3-ші қабырға)</span>
+                            <i class="fa-regular fa-circle text-slate-500 check-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button onclick="checkMatchingTask()" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">
+                        Тексеру
+                    </button>
+                    <div id="matchingFeedback" class="mt-3 text-xs text-center min-h-[20px]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE QUIZ & TASKS -->
+    <section id="quiz" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-700/80 shadow-2xl relative">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-slate-800 pb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-2">
+                        <i class="fa-solid fa-gamepad"></i> 7-сынып Бөлімі
+                    </div>
+                    <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white">
+                        Бетпе-бет Тапсырмалар мен Тест
+                    </h3>
+                    <p class="text-slate-400 text-sm">ҚҚҚ белгісі бойынша біліміңді тексер!</p>
+                </div>
+
+                <!-- Score Counter & Progress Bar -->
+                <div class="flex items-center gap-6 bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                    <div class="text-center">
+                        <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold block">Нәтиже</span>
+                        <span id="scoreText" class="font-display text-2xl font-bold text-emerald-400">0 / 4</span>
+                    </div>
+                    <div class="w-32 sm:w-48 bg-slate-800 h-3 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                        <div id="quizProgressBar" class="bg-gradient-to-r from-emerald-400 to-cyan-400 h-full rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Questions Container -->
+            <div id="quizContainer" class="space-y-8">
+                <!-- Question cards will be rendered here dynamically via JS -->
+            </div>
+
+            <!-- Completion Card / Certificate Modal (Hidden initially) -->
+            <div id="completionCard" class="hidden mt-8 p-8 bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl border border-emerald-500/40 text-center relative overflow-hidden shadow-2xl">
+                <div class="w-20 h-20 bg-gradient-to-tr from-emerald-400 to-teal-500 rounded-3xl mx-auto flex items-center justify-center text-slate-950 text-4xl shadow-lg shadow-emerald-500/30 mb-4 animate-bounce">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h4 class="font-display text-3xl font-extrabold text-white mb-2">Тамаша нәтиже! 🎉</h4>
+                <p class="text-slate-300 text-sm max-w-md mx-auto mb-4">
+                    Сіз «Үшбұрыштар теңдігінің 3-ші белгісі (ҚҚҚ)» тақырыбы бойынша барлық тапсырмаларды сәтті аяқтадыңыз!
+                </p>
+
+                <!-- Student Certificate Name Input -->
+                <div class="max-w-xs mx-auto mb-6">
+                    <input type="text" id="studentNameInput" placeholder="Есіміңізді енгізіңіз" 
+                           class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-center text-white text-sm focus:outline-none focus:border-emerald-500 transition">
+                </div>
+
+                <div class="inline-block bg-slate-800/80 border border-slate-700 px-6 py-3 rounded-2xl mb-6">
+                    <span class="text-xs text-slate-400 block font-mono">ҚОРЫТЫНДЫ ҰПАЙ:</span>
+                    <span id="finalScore" class="text-3xl font-extrabold text-emerald-400 font-display">4 / 4 (100%)</span>
+                </div>
+                <div>
+                    <button onclick="resetQuiz()" class="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:opacity-90 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-500/25">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Кайтадан өту
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 text-center text-xs text-slate-500 flex flex-col items-center justify-center gap-2">
+        <div class="flex items-center gap-2">
+            <span class="font-display font-bold text-slate-300">izi<span class="text-emerald-400">school</span></span>
+            <span>— Интерактивті оқыту платформасы</span>
+        </div>
+        <p>Геометрия 7-сынып — Оқу-әдістемелік интерактивті ресурсы</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Web Audio API Sound Effects Synthesizer ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'success') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'error') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(140, now + 0.15);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(420, now);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            }
+        }
+
+        // --- SECTION SCROLLING ---
+        function scrollToSection(id) {
+            playSound('click');
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- SECTION 1: VISUALIZER ENGINE (SSS / ҚҚҚ) ---
+        let isCongruentMode = true;
+
+        function setVisualizerMode(congruent) {
+            playSound('click');
+            isCongruentMode = congruent;
+            
+            const btnC = document.getElementById('btnCongruentMode');
+            const btnNC = document.getElementById('btnNonCongruentMode');
+            const ncCtrl = document.getElementById('nonCongruentControl');
+
+            if (congruent) {
+                btnC.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-emerald-500 text-slate-950 shadow-md";
+                btnNC.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition";
+                ncCtrl.classList.add('hidden');
+            } else {
+                btnNC.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition bg-red-500 text-white shadow-md";
+                btnC.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition";
+                ncCtrl.classList.remove('hidden');
+            }
+
+            updateVisualizer();
+        }
+
+        function updateVisualizer() {
+            const sideC = parseFloat(document.getElementById('inputSideC').value); // AB
+            const sideB = parseFloat(document.getElementById('inputSideB').value); // AC
+            const sideA = parseFloat(document.getElementById('inputSideA').value); // BC
+
+            let sideA2 = sideA;
+            if (!isCongruentMode) {
+                sideA2 = parseFloat(document.getElementById('inputSideA2').value);
+            }
+
+            // Update UI Slider text labels
+            document.getElementById('valSideC').innerText = sideC + ' px';
+            document.getElementById('valSideB').innerText = sideB + ' px';
+            document.getElementById('valSideA').innerText = sideA + ' px';
+            document.getElementById('valSideA2').innerText = sideA2 + ' px';
+
+            // Check Triangle Inequality for Triangle 1: a + b > c, a + c > b, b + c > a
+            const alertBox = document.getElementById('inequalityAlert');
+            const isTri1Valid = (sideA + sideB > sideC) && (sideA + sideC > sideB) && (sideB + sideC > sideA);
+            const isTri2Valid = (sideA2 + sideB > sideC) && (sideA2 + sideC > sideB) && (sideB + sideC > sideA2);
+
+            if (!isTri1Valid || !isTri2Valid) {
+                alertBox.classList.remove('hidden');
+                document.getElementById('inequalityReason').textContent = `Үшбұрыш теңсіздігі орындалмады! Қабырғалары (${sideC}, ${sideB}, ${!isTri1Valid ? sideA : sideA2}) бойынша үшбұрыш тұрғызу мүмкін емес.`;
+                return;
+            } else {
+                alertBox.classList.add('hidden');
+            }
+
+            // Trigonometry calculations for Triangle 1 (ABC) using Law of Cosines
+            // cos(A) = (b^2 + c^2 - a^2) / (2*b*c)
+            const cosA1 = (sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC);
+            const radA1 = Math.acos(Math.max(-1, Math.min(1, cosA1)));
+
+            // Point A at (20, 220), Point B at (20 + sideC, 220)
+            const Ax = 20, Ay = 220;
+            const Bx = Ax + sideC, By = Ay;
+            const Cx = Ax + sideB * Math.cos(-radA1);
+            const Cy = Ay + sideB * Math.sin(-radA1);
+
+            // Update Triangle 1 SVG
+            document.getElementById('poly1').setAttribute('points', `${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}`);
+            setLine('sideAB1', Ax, Ay, Bx, By);
+            setLine('sideAC1', Ax, Ay, Cx, Cy);
+            setLine('sideBC1', Bx, By, Cx, Cy);
+
+            // Labels
+            setLabel('lblA', Ax - 12, Ay + 15, 1);
+            setLabel('lblB', Bx + 5, By + 15, 1);
+            setLabel('lblC', Cx - 4, Cy - 8, 1);
+
+            document.getElementById('valAB1').setAttribute('x', (Ax + Bx)/2);
+            document.getElementById('valAB1').setAttribute('y', Ay + 16);
+            document.getElementById('valAB1').textContent = sideC;
+
+            document.getElementById('valAC1').setAttribute('x', (Ax + Cx)/2 - 8);
+            document.getElementById('valAC1').setAttribute('y', (Ay + Cy)/2);
+            document.getElementById('valAC1').textContent = sideB;
+
+            document.getElementById('valBC1').setAttribute('x', (Bx + Cx)/2 + 8);
+            document.getElementById('valBC1').setAttribute('y', (By + Cy)/2);
+            document.getElementById('valBC1').textContent = sideA;
+
+            // Trigonometry for Triangle 2 (A'B'C')
+            const cosA2 = (sideB * sideB + sideC * sideC - sideA2 * sideA2) / (2 * sideB * sideC);
+            const radA2 = Math.acos(Math.max(-1, Math.min(1, cosA2)));
+
+            const Bx2 = Ax + sideC;
+            const Cx2 = Ax + sideB * Math.cos(-radA2);
+            const Cy2 = Ay + sideB * Math.sin(-radA2);
+
+            document.getElementById('poly2').setAttribute('points', `${Ax},${Ay} ${Bx2},${By} ${Cx2},${Cy2}`);
+            setLine('sideAB2', Ax, Ay, Bx2, By);
+            setLine('sideAC2', Ax, Ay, Cx2, Cy2);
+            setLine('sideBC2', Bx2, By, Cx2, Cy2);
+
+            setLabel('lblA', Ax - 12, Ay + 15, 2);
+            setLabel('lblB', Bx2 + 5, By + 15, 2);
+            setLabel('lblC', Cx2 - 4, Cy2 - 8, 2);
+
+            document.getElementById('valAB2').setAttribute('x', (Ax + Bx2)/2);
+            document.getElementById('valAB2').setAttribute('y', Ay + 16);
+            document.getElementById('valAB2').textContent = sideC;
+
+            document.getElementById('valAC2').setAttribute('x', (Ax + Cx2)/2 - 8);
+            document.getElementById('valAC2').setAttribute('y', (Ay + Cy2)/2);
+            document.getElementById('valAC2').textContent = sideB;
+
+            document.getElementById('valBC2').setAttribute('x', (Bx2 + Cx2)/2 + 8);
+            document.getElementById('valBC2').setAttribute('y', (By + Cy2)/2);
+            document.getElementById('valBC2').textContent = sideA2;
+
+            // Top Status updates
+            document.getElementById('tri1Info').textContent = `ΔABC: c=${sideC}, b=${sideB}, a=${sideA}`;
+            document.getElementById('tri2Info').textContent = `ΔA'B'C': c'=${sideC}, b'=${sideB}, a'=${sideA2}`;
+
+            const badge = document.getElementById('congruenceStatusBadge');
+            const hint = document.getElementById('labHintText');
+
+            const eq1 = document.getElementById('eq1');
+            const eq2 = document.getElementById('eq2');
+            const eq3 = document.getElementById('eq3');
+
+            if (isCongruentMode || sideA === sideA2) {
+                badge.className = "px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold flex items-center gap-1.5";
+                badge.innerHTML = `<i class="fa-solid fa-equals"></i> ΔABC ≅ ΔA'B'C' (Тең)`;
+                hint.textContent = "Үш қабырғасы сәйкесінше тең, сондықтан ҚҚҚ белгісі бойынша үшбұрыштар тең.";
+                
+                eq1.className = "text-emerald-400"; eq1.textContent = "✓ Тең";
+                eq2.className = "text-emerald-400"; eq2.textContent = "✓ Тең";
+                eq3.className = "text-emerald-400"; eq3.textContent = "✓ Тең";
+            } else {
+                badge.className = "px-2.5 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 font-semibold flex items-center gap-1.5";
+                badge.innerHTML = `<i class="fa-solid fa-not-equal"></i> ΔABC ≇ ΔA'B'C' (Тең емес)`;
+                hint.textContent = "BC ≠ B'C' болғандықтан, 3-ші белгі (ҚҚҚ) шарты орындалмайды! Үшбұрыштар тең емес.";
+
+                eq1.className = "text-emerald-400"; eq1.textContent = "✓ Тең";
+                eq2.className = "text-emerald-400"; eq2.textContent = "✓ Тең";
+                eq3.className = "text-red-400"; eq3.textContent = "✕ Тең емес";
+            }
+        }
+
+        function setLine(id, x1, y1, x2, y2) {
+            const el = document.getElementById(id);
+            el.setAttribute('x1', x1);
+            el.setAttribute('y1', y1);
+            el.setAttribute('x2', x2);
+            el.setAttribute('y2', y2);
+        }
+
+        function setLabel(idPrefix, x, y, num) {
+            const el = document.getElementById(idPrefix + num);
+            el.setAttribute('x', x);
+            el.setAttribute('y', y);
+        }
+
+        function superimposeTriangles() {
+            playSound('click');
+            const g2 = document.getElementById('svgTri2');
+            g2.style.transition = 'transform 0.8s ease-in-out';
+            g2.setAttribute('transform', 'translate(60, 30)');
+
+            setTimeout(() => {
+                g2.setAttribute('transform', 'translate(400, 30)');
+            }, 1800);
+        }
+
+        // --- SECTION 2: MATCHING TASK LOGIC ---
+        const selectedMatchItems = new Set();
+
+        function toggleMatchItem(btn, itemKey) {
+            playSound('click');
+            const icon = btn.querySelector('.check-icon');
+            if (selectedMatchItems.has(itemKey)) {
+                selectedMatchItems.delete(itemKey);
+                btn.classList.remove('border-emerald-500', 'bg-emerald-950/40');
+                icon.className = 'fa-regular fa-circle text-slate-500 check-icon';
+            } else {
+                selectedMatchItems.add(itemKey);
+                btn.classList.add('border-emerald-500', 'bg-emerald-950/40');
+                icon.className = 'fa-solid fa-circle-check text-emerald-400 check-icon';
+            }
+        }
+
+        function checkMatchingTask() {
+            const feedback = document.getElementById('matchingFeedback');
+            // Correct triplet for SSS: sideAB, sideAC, sideBC
+            const isCorrect = selectedMatchItems.has('sideAB') && 
+                              selectedMatchItems.has('sideAC') && 
+                              selectedMatchItems.has('sideBC') && 
+                              !selectedMatchItems.has('angA') && 
+                              selectedMatchItems.size === 3;
+
+            if (isCorrect) {
+                playSound('success');
+                feedback.className = "mt-3 text-xs text-center text-emerald-400 font-bold font-mono";
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Өте тамаша! ҚҚҚ белгісі: барлық 3 қабырға жұбының теңдігі (AB=A\'B\', AC=A\'C\', BC=B\'C\').';
+            } else {
+                playSound('error');
+                feedback.className = "mt-3 text-xs text-center text-red-400 font-bold font-mono";
+                feedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Қате. Есте сақтаңыз: ҚҚҚ (Қабырға-Қабырға-Қабырға) белгісінде тек үш қабырғаның теңдігі таңдалады (1, 3, 4 элементтер).';
+            }
+        }
+
+        // --- SECTION 3: QUIZ DATA & LOGIC ---
+        const quizQuestions = [
+            {
+                id: 1,
+                title: "1-тапсырма. Теорияны тексеру",
+                question: "Үшбұрыштар теңдігінің 3-ші белгісінің (ҚҚҚ) анықтамасы бойынша қай шарт орындалуы тиіс?",
+                options: [
+                    "Екі үшбұрыштың сәйкес үш қабырғасы өзара тең болуы керек",
+                    "Екі үшбұрыштың үш бұрышы өзара тең болуы керек",
+                    "Екі қабырғасы мен биіктігі тең болуы керек",
+                    "Периметрлері ғана тең болуы жеткілікті"
+                ],
+                correct: 0,
+                explanation: "ҚҚҚ (Қабырға-Қабырға-Қабырға / SSS) белгісі бойынша екі үшбұрыштың тиісінше үш қабырғасы тең болуы керек."
+            },
+            {
+                id: 2,
+                title: "2-тапсырма. Көрнекілік бойынша тану (Ромб диагоналы)",
+                question: "Суретте ABCD ромбы берілген (барлық қабырғалары тең: AB=BC=CD=DA). AC диагоналы жүргізілген. Неліктен ΔABC = ΔADC болады?",
+                hasImage: true,
+                svgType: "rhombus",
+                options: [
+                    "Тек 1-ші белгі (ТҚТ) бойынша",
+                    "ҚҚҚ белгісі бойынша (AB=AD, BC=DC және AC - ортақ қабырға)",
+                    "Өйткені бұрыштары белгілі",
+                    "Тек периметрлері тең болғандықтан"
+                ],
+                correct: 1,
+                explanation: "AB = AD, BC = DC (ромб қабырғалары) және AC – екі үшбұрышқа ортақ қабырға. Үш қабырғасы тең болғандықтан, ҚҚҚ белгісі орындалады!"
+            },
+            {
+                id: 3,
+                title: "3-тапсырма. Есептеу (Периметр есебі)",
+                question: "ΔABC = ΔA'B'C' (ҚҚҚ белгісі бойынша). Егер ΔABC периметрі P = 36 см, AB = 10 см, BC = 14 см болса, онда A'C' қабырғасының ұзындығы неге тең?",
+                options: [
+                    "A'C' = 12 см",
+                    "A'C' = 24 см",
+                    "A'C' = 10 см",
+                    "A'C' = 14 см"
+                ],
+                correct: 0,
+                explanation: "AC = P - (AB + BC) = 36 - (10 + 14) = 12 см. Үшбұрыштар тең болғандықтан, A'C' = AC = 12 см."
+            },
+            {
+                id: 4,
+                title: "4-тапсырма. Өмірмен байланысты есеп (Көпір конструкциясы)",
+                question: "Инженерлер көпірлер мен құрылыс крандарын салғанда неліктен тіктөртбұрышты емес, үшбұрышты фермаларды (конструкцияларды) қолданады?",
+                hasImage: true,
+                svgType: "truss",
+                options: [
+                    "Үшбұрыш әдемірек көрінеді",
+                    "ҚҚҚ белгісіне сай үш қабырғасы фиксацияланған үшбұрыш пішінін өзгертпейді (беріктік қасиеті)",
+                    "Үшбұрышқа бояу аз кетеді",
+                    "Тіктөртбұрыштың бұрыштары тым сүйір"
+                ],
+                correct: 1,
+                explanation: "Үшбұрыштың үш қабырғасы берілсе, оның пішіні мен бұрыштары деформацияланбайды (жесткость треугольника). Бұл ҚҚҚ белгісінің практикалық қолданысы!"
+            }
+        ];
+
+        let userAnswers = {};
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/90 rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4";
+                
+                let imageHtml = '';
+                if (q.hasImage && q.svgType === 'rhombus') {
+                    imageHtml = `
+                    <div class="my-3 p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-center">
+                        <svg width="220" height="120" viewBox="0 0 220 120">
+                            <!-- Rhombus ABCD -->
+                            <polygon points="110,10 200,60 110,110 20,60" fill="rgba(16, 185, 129, 0.1)" stroke="#34d399" stroke-width="2"/>
+                            <!-- Diagonal AC -->
+                            <line x1="20" y1="60" x2="200" y2="60" stroke="#f59e0b" stroke-width="3" stroke-dasharray="2"/>
+                            <!-- Labels -->
+                            <text x="15" y="65" fill="#38bdf8" font-size="11" font-weight="bold">A</text>
+                            <text x="108" y="22" fill="#38bdf8" font-size="11" font-weight="bold">B</text>
+                            <text x="205" y="65" fill="#38bdf8" font-size="11" font-weight="bold">C</text>
+                            <text x="108" y="122" fill="#38bdf8" font-size="11" font-weight="bold">D</text>
+                        </svg>
+                    </div>`;
+                } else if (q.hasImage && q.svgType === 'truss') {
+                    imageHtml = `
+                    <div class="my-3 p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-center">
+                        <svg width="280" height="90" viewBox="0 0 280 90">
+                            <!-- Bridge Truss Triangles -->
+                            <polygon points="10,80 70,20 130,80 190,20 250,80" fill="none" stroke="#a855f7" stroke-width="2.5"/>
+                            <line x1="10" y1="80" x2="250" y2="80" stroke="#38bdf8" stroke-width="3"/>
+                            <line x1="70" y1="20" x2="190" y2="20" stroke="#38bdf8" stroke-width="3"/>
+                            <circle cx="70" cy="20" r="3" fill="#34d399"/>
+                            <circle cx="130" cy="80" r="3" fill="#34d399"/>
+                            <circle cx="190" cy="20" r="3" fill="#34d399"/>
+                        </svg>
+                    </div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-xs font-semibold text-emerald-400 font-mono">${q.title}</span>
+                        <span id="badge-q${q.id}" class="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Жауап берілмеді</span>
+                    </div>
+                    <p class="text-sm font-medium text-slate-100">${q.question}</p>
+                    ${imageHtml}
+                    <div class="space-y-2 pt-1">
+                        ${q.options.map((opt, optIdx) => `
+                            <button onclick="selectAnswer(${index}, ${optIdx})" 
+                                    id="opt-q${q.id}-${optIdx}"
+                                    class="quiz-opt-btn w-full p-3 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm text-left transition flex items-center justify-between">
+                                <span>${opt}</span>
+                                <i class="fa-regular fa-circle text-slate-600 opt-icon"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="exp-q${q.id}" class="hidden p-3 rounded-xl text-xs bg-slate-950 border border-slate-800 text-slate-300 leading-relaxed">
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectAnswer(qIndex, optIndex) {
+            playSound('click');
+            const q = quizQuestions[qIndex];
+            userAnswers[q.id] = optIndex;
+
+            // Reset options style
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`opt-q${q.id}-${idx}`);
+                btn.className = "quiz-opt-btn w-full p-3 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm text-left transition flex items-center justify-between";
+                btn.querySelector('.opt-icon').className = 'fa-regular fa-circle text-slate-600 opt-icon';
+            });
+
+            const selectedBtn = document.getElementById(`opt-q${q.id}-${optIndex}`);
+            const badge = document.getElementById(`badge-q${q.id}`);
+            const expBox = document.getElementById(`exp-q${q.id}`);
+
+            expBox.classList.remove('hidden');
+
+            if (optIndex === q.correct) {
+                playSound('success');
+                selectedBtn.className = "quiz-opt-btn w-full p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/30 text-emerald-300 text-xs sm:text-sm text-left transition flex items-center justify-between font-medium";
+                selectedBtn.querySelector('.opt-icon').className = 'fa-solid fa-circle-check text-emerald-400 opt-icon';
+                badge.className = "text-xs px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-semibold";
+                badge.textContent = "Дұрыс! ✓";
+                expBox.innerHTML = `<span class="text-emerald-400 font-bold">Дұрыс жауап!</span> ${q.explanation}`;
+            } else {
+                playSound('error');
+                selectedBtn.className = "quiz-opt-btn w-full p-3 rounded-xl border border-red-500/50 bg-red-950/30 text-red-300 text-xs sm:text-sm text-left transition flex items-center justify-between";
+                selectedBtn.querySelector('.opt-icon').className = 'fa-solid fa-circle-xmark text-red-400 opt-icon';
+                
+                // Highlight correct option too
+                const correctBtn = document.getElementById(`opt-q${q.id}-${q.correct}`);
+                correctBtn.classList.add('border-emerald-500/40', 'bg-emerald-950/20');
+
+                badge.className = "text-xs px-2 py-0.5 rounded-md bg-red-500/20 text-red-400 font-semibold";
+                badge.textContent = "Қате ✕";
+                expBox.innerHTML = `<span class="text-red-400 font-bold">Түсініктеме:</span> ${q.explanation}`;
+            }
+
+            updateScore();
+        }
+
+        function updateScore() {
+            let correctCount = 0;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            quizQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            document.getElementById('scoreText').innerText = `${correctCount} / ${quizQuestions.length}`;
+            const pct = (answeredCount / quizQuestions.length) * 100;
+            document.getElementById('quizProgressBar').style.width = `${pct}%`;
+
+            if (answeredCount === quizQuestions.length) {
+                showCompletion(correctCount);
+            }
+        }
+
+        function showCompletion(score) {
+            const completionCard = document.getElementById('completionCard');
+            completionCard.classList.remove('hidden');
+            document.getElementById('finalScore').innerText = `${score} / ${quizQuestions.length} (${Math.round((score/quizQuestions.length)*100)}%)`;
+
+            if (score === quizQuestions.length) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function resetQuiz() {
+            playSound('click');
+            userAnswers = {};
+            document.getElementById('quizProgressBar').style.width = '0%';
+            document.getElementById('scoreText').innerText = `0 / ${quizQuestions.length}`;
+            document.getElementById('completionCard').classList.add('hidden');
+            renderQuiz();
+        }
+
+        // --- INITIALIZATION ON WINDOW LOAD ---
+        window.onload = function() {
+            updateVisualizer();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
